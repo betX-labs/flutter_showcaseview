@@ -99,6 +99,11 @@ class Showcase extends StatefulWidget {
   /// Custom tooltip widget when [Showcase.withWidget] is used.
   final Widget? container;
 
+  /// Whether the container uses it's own positioning when [Showcase.withWidget] is used.
+  /// 
+  /// Default to `false`
+  final bool? isContainerPositioned; // Customized for Mad Props
+
   /// Defines background color for tooltip widget.
   ///
   /// Default to [Colors.white]
@@ -263,6 +268,7 @@ class Showcase extends StatefulWidget {
   })  : height = null,
         width = null,
         container = null,
+        isContainerPositioned = false, // Customized for Mad Props
         assert(overlayOpacity >= 0.0 && overlayOpacity <= 1.0,
             "overlay opacity must be between 0 and 1."),
         assert(
@@ -280,6 +286,7 @@ class Showcase extends StatefulWidget {
     required this.key,
     required this.child,
     required this.container,
+    this.isContainerPositioned = false, // Customized for Mad Props
     required this.height,
     required this.width,
     this.targetShapeBorder = const RoundedRectangleBorder(
@@ -523,6 +530,7 @@ class _ShowcaseState extends State<Showcase> {
                   titleTextStyle: widget.titleTextStyle,
                   descTextStyle: widget.descTextStyle,
                   container: widget.container,
+                  isContainerPositioned: widget.isContainerPositioned, // Customized for Mad Props
                   tooltipBackgroundColor: widget.tooltipBackgroundColor,
                   textColor: widget.textColor,
                   showArrow: widget.showArrow,

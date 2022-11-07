@@ -40,6 +40,7 @@ class ToolTipWidget extends StatefulWidget {
   final TextStyle? titleTextStyle;
   final TextStyle? descTextStyle;
   final Widget? container;
+  final bool? isContainerPositioned; // Customized for Mad Props
   final Color? tooltipBackgroundColor;
   final Color? textColor;
   final bool showArrow;
@@ -67,6 +68,7 @@ class ToolTipWidget extends StatefulWidget {
     required this.titleTextStyle,
     required this.descTextStyle,
     required this.container,
+    this.isContainerPositioned = false, // Customized for Mad Props
     required this.tooltipBackgroundColor,
     required this.textColor,
     required this.showArrow,
@@ -330,7 +332,10 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
       _scaleAnimationController.reverse();
     }
 
-    if (widget.container == null) {
+    // Customized for Mad Props
+    if (widget.isContainerPositioned == true && widget.container != null) {
+      return widget.container!;
+    } else if (widget.container == null) {
       return Positioned(
         top: contentY,
         left: _getLeft(),
