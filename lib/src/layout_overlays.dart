@@ -169,14 +169,25 @@ class _OverlayBuilderState extends State<OverlayBuilder> {
   }
 
   void addToOverlay(OverlayEntry overlayEntry) async {
-    final showCaseContext = ShowCaseWidget.of(context).context;
+    // This modification was made on the origin `flutter_showcaseview` repo
+    // to address breaking overlay funcationality starting with Flutter v3.7.
+    //
+    // While on Flutter v3.3.8 we began to see errors on `debug` builds,
+    // fortunately `release` builds worked as expected. However, these changes
+    // _should_ be stable through the currently latest Fluttever v3.10.
+    //
+    // These changes originate from this origin PR:
+    // - https://github.com/SimformSolutionsPvtLtd/flutter_showcaseview/pull/288/files#diff-b2d82fcab3cc9afc9edfa76d01dc74baae2bc26ffa48352229249070f471d72aR174-R180
+    //
+    // For more reference see:
+    // - https://github.com/flutter/flutter/issues/120591
+    // - https://github.com/SimformSolutionsPvtLtd/flutter_showcaseview/issues/330
     if (mounted) {
-      if (Overlay.of(showCaseContext) != null) {
-        Overlay.of(showCaseContext)!.insert(overlayEntry);
-      } else {
-        if (Overlay.of(context) != null) {
-          Overlay.of(context)!.insert(overlayEntry);
-        }
+      final showCaseContext = ShowCaseWidget.of(context).context;
+      if (Overlay.maybeOf(showCaseContext) != null) {
+        Overlay.of(showCaseContext).insert(overlayEntry);
+      } else if (Overlay.maybeOf(context) != null) {
+        Overlay.of(context).insert(overlayEntry);
       }
     }
   }
